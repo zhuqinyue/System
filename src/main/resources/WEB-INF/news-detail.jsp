@@ -46,7 +46,7 @@
 		<a href="/desk/getpageindex"  id="index" style="font-family: 'Arial Normal', 'Arial';" class="daoh">首页</a>
 		<!--            <a href="/#/case"  @click="loading('example')" v-show="false" id="example" style="font-family: 'Arial Normal', 'Arial';" class="daoh">成功案例</a>-->
 		<a  href="/desk/getpagenews" id="newss" style="font-family: 'Arial Normal', 'Arial';" class="active daoh">新闻中心</a>
-		<span>客服热线：18900679093</span>
+		<span>客服热线：18500679093</span>
 	</nav>
 </header>
 <!--  <div id="banner">-->

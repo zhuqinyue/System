@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+</head>
+
+<body>
+<h1>TinyMCE快速开始示例</h1>
+
+    <textarea id="mytextarea">Hello, World!</textarea>
+
+
+</body>
+
+
+</html>
+<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        language:'zh_CN',
+        toolbar: 'fullscreen|bold|italic|underline|strikethrough|alignleft|aligncenter|alignright|alignjustify|formatselect|fontselect|fontsizeselect|cut|copy|paste|bullist|numlist|outdent|indent|blockquote|undo|redo|removeformat|subscript|superscript|code|bullist|numlist|preview|link|image|charmap|print|insertdatetime|bdmap',
+        plugins: 'fullscreen code lists advlist preview link image charmap print insertdatetime bdmap',
+       // toolbar: 'bold|newdocument|undo redo | styleselect | bold italic | link image',
+        //编辑器高度
+        images_upload_url: '/news/inputimg'
+    });
+
+
+
+</script>
+
+
+tinyMCE.activeEditor.getContent()
+
+tinyMCE.activeEditor.setContent(“需要设置的编辑器内容”)

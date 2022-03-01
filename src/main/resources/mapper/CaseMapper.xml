@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.system.dao.CaseDao">
+<select id="findFiveCase" resultType="com.company.system.entity.SysCase">
+    select  caseid,casetlt,casetarget,casepv,caselike,caseimgsrc,casestarttime,caseendtime,casecreattime,casezhuangtai,caseiszancun,caseupdatetime from  sys_case s where s.casezhuangtai = '已发布' and #{nowtime} > s.casestarttime and s.caseendtime >#{nowtime} ORDER BY s.casecreattime desc  limit 5
+</select>
+<select id="findAllCases" resultType="com.company.system.entity.SysCase">
+ SELECT caseid,casetlt,casetarget,casepv,caselike,caseimgsrc,casestarttime,caseendtime,casecreattime,casezhuangtai,caseiszancun,caseupdatetime  FROM sys_case  WHERE casezhuangtai = '已发布' and #{nowtime} > casestarttime and caseendtime >#{nowtime}  ORDER BY  caseupdatetime desc
+</select>
+    <update id="updatePVbyID">
+        UPDATE sys_case SET casepv=#{s} WHERE caseid = #{id}
+    </update>
+</mapper>

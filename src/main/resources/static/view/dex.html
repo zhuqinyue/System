@@ -1,0 +1,116 @@
+<script src="/js/vue-2.4.0.js"></script>
+<div id="app3" class="box box-default" id="addn" style="padding-bottom: 50px;padding-top: 34px;text-align: center;">
+    <div style="display: flex;text-align: center;">
+        <div style="margin: auto;">
+        <div style="width: 230px;height: 230px;background-color: white;margin: auto;">
+            <img :src="img1" class="img1" style="width: 230px;height: 230px;"/>
+        </div>
+        <p style="font-size: 5px;">建议图片尺寸为230x230的白色背景或无背景图片</p>
+            <input type="file" class="imgfill1" onchange="inputfill('1')" style="display: none;">
+            <input type="button" onclick="$('.imgfill1').click();" class="btn btn-xs btn-primary" value="上传预览">
+            <input type="button" class="btn btn-xs btn-success" @click="sub" value="确认替换">
+            <input type="button" class="btn btn-xs btn-danger" @click = "close1"  value="取消替换">
+        </div>
+        <div style="margin: auto;">
+        <div style="width: 230px;height: 230px;background-color: white;margin: auto;">
+            <img :src="img2" class="img2" style="width: 230px;height: 230px;"/>
+        </div>
+        <p style="font-size: 5px;">建议图片尺寸为230x230的白色背景或无背景图片</p>
+            <input type="file" class="imgfill2" onchange="inputfill('2')" style="display: none;">
+            <input type="button" class="btn btn-xs btn-primary" onclick="$('.imgfill2').click();"  value="上传预览">
+            <input type="button" class="btn btn-xs btn-success" @click="sub" value="确认替换">
+            <input type="button" class="btn btn-xs btn-danger" @click = "close2" value="取消替换">
+        </div>
+        <div style="margin: auto;">
+        <div style="width: 230px;height: 230px;background-color: white;">
+            <img :src="img3" class="img3" style="width: 230px;height: 230px;"/>
+        </div>
+        <p style="font-size: 5px;">建议图片尺寸为230x230的白色背景或无背景图片</p>
+            <input type="file" class="imgfill3" onchange="inputfill('3')" style="display: none;">
+            <input type="button" class="btn btn-xs btn-primary" onclick="$('.imgfill3').click();"  value="上传预览">
+            <input type="button" class="btn btn-xs btn-success" @click="sub" value="确认替换">
+            <input type="button" class="btn btn-xs btn-danger" @click = "close3"  value="取消替换">
+        </div>
+
+
+    </div>
+</div>
+<script>
+   var vm = new Vue({
+       el:'#app3',
+       data:{
+           img1:"",
+           img2:"",
+           img3:""
+       },
+       methods:{
+           close1:function () {
+               $(".img1").attr("src",this.img1)
+           },
+           close2:function () {
+               $(".img2").attr("src",this.img2)
+           },
+           close3:function () {
+               $(".img3").attr("src",this.img3)
+           }
+
+
+
+           ,
+            sub:function (){
+               var img1 =  $(".img1").attr("src")
+               var img2 =  $(".img2").attr("src")
+               var img3 =  $(".img3").attr("src")
+                $.post("/news/updateimg",{
+                    "img1":img1,
+                    "img2":img2,
+                    "img3":img3
+                },obj=>{
+                    if(obj.ok){
+                        alert("修改成功")
+                        this.img1 = obj.data.img1
+                        this.img2 = obj.data.img2
+                        this.img3 = obj.data.img3
+                    }
+                })
+            },
+
+       },
+       mounted:function () {
+           $.post("/desk/findimgs",obj=>{
+               this.img1 = obj.data.img1
+               this.img2 = obj.data.img2
+               this.img3 = obj.data.img3
+           })
+       }
+   })
+   function inputfill(i) {
+       console.log(i)
+       var formdata = new FormData();
+       formdata.append('file', $('.imgfill'+i)[0].files[0])
+       $.ajax({
+           url: "/news/inputimg",
+           data: formdata,
+           type: "POST",
+           // 告诉jQuery不要去处理发送的数据，用于对data参数进行序列化处理 这里必须false
+           processData: false,
+           // 告诉jQuery不要去设置Content-Type请求头
+           contentType: false,
+           dataType: "json",
+           success: function (json) {
+               console.log(json)
+               if (json.ok) {
+                   $(".img"+i).attr("src", json.data)
+               }
+           },
+           error: function (json) {
+           }
+       });
+   }
+        function sendfill(index){
+
+            $(".imgfill1").trigger('click');
+      }
+
+
+</script>

@@ -312,14 +312,19 @@ public class NewsServiceImpl implements NewsService {
         }
     }
     @Override
-    public void addPV(String id) {
+    public Boolean addPV(String id) {
         SysNews sysNews = (SysNews)this.newsDao.selectOne((Wrapper)(new QueryWrapper()).eq("newsid", id));
         Integer liulanliang = sysNews.getLiulanliang();
         if(liulanliang == null) {
             liulanliang = Integer.valueOf(1);
         }
-
-        this.newsDao.updatePVbyID(id,liulanliang + 1);
+        sysNews.setLiulanliang(liulanliang+1);
+        int i = newsDao.updateById(sysNews);
+        if(i>0){
+            return true;
+        }else{
+            return false;
+        }
     }
     @Override
     public indexcontent findimgs() {

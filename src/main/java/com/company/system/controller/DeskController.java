@@ -134,20 +134,24 @@ public class DeskController {
         return page != null && page.getRecords().size() > 0?SysResult.oK(page):SysResult.build(Integer.valueOf(1), "查询新闻数据失败");
     }
 
-    @RequestMapping({"addPV"})
+    @RequestMapping("addPV")
     @ResponseBody
     public SysResult addPv(String id, String type) {
+        Boolean flag;
         if(id != null && !id.equals("") && type != null && !type.equals("")) {
             if(type.equals("news")) {
-                this.newsService.addPV(id);
+                flag = newsService.addPV(id);
             }
 
             if(type.equals("cases")) {
                 this.caseService.addPV(id);
             }
         }
-
-        return SysResult.oK();
+            if(false){
+                return SysResult.oK();
+            }else{
+                return SysResult.build(1,"错误");
+            }
     }
 
     @RequestMapping({"sendMail"})

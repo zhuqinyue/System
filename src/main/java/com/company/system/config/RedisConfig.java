@@ -20,7 +20,7 @@ public class RedisConfig {
         JedisConnectionFactory config = new JedisConnectionFactory();
         config.setHostName("59.110.175.182");
         config.setPort(6379);
-        //config.setPassword("yunding12..");
+        config.setPassword("yunding12..");
         return config;
     }
 

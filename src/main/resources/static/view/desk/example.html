@@ -1,0 +1,184 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>云鼎空间</title>
+  <link href="/css/reset.css" rel="stylesheet"/>
+  <link href="/css/iconfont.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+  <div id="wrapper">
+    <header id="header" class="clearfix">
+      <div id="logo">
+        <a href="./index.html">
+          <img src="/img/logo.png"/>
+          <img src="/img/logo_text.png"/>
+        </a>
+      </div>
+      <nav>
+        <a href="/desk/getpageindex">首页</a>
+        <a href="/desk/getpageexample" class="active">成功案例</a>
+        <a href="/desk/getpagenews">新闻中心</a>
+        <span>客服热线：18500679093</span>
+      </nav>
+    </header>
+    <div id="banner">
+      <img src="/img/u0.png"/>
+    </div>-->
+<script src="/js/vue-2.4.0.js"></script>
+<iframe style="display: none;">
+</iframe>
+
+    <article class="clearfix" id="app2">
+      <section class="example-card"  v-for="item in casedatalist" :key="item.caseid" style="cursor: pointer;" @click="seecase(item.caseid)">
+        <img :src="item.caseimgsrc" style="width: 375px;"/>
+        <div class="example-card__content">
+          <h3>{{item.casetlt}}</h3>
+          <p>{{item.casetarget}}</p>
+        </div>
+        <footer>
+          <dl>
+            <dt>{{item.casepv}}</dt>
+            <dd>展现量</dd>
+          </dl>
+          <dl>
+            <dt>36w</dt>
+            <dd>访问量</dd>
+          </dl>
+        </footer>
+      </section>
+
+      <section class="example-card"  @click="jiazaigengduo"  style="cursor: pointer;">
+        <div style="text-align: center;padding: 190px 0 0 0;" id="more" >点击加载更多...</div>
+      </section>
+
+
+      <!--<section class="example-card">
+        <img src="/img/u44.png"/>
+        <div class="example-card__content">
+          <h3>脑力大PK</h3>
+          <p>金牌优先公司</p>
+        </div>
+        <footer>
+          <dl>
+            <dt>3%</dt>
+            <dd>点击率</dd>
+          </dl>
+          <dl>
+            <dt>3元/次</dt>
+            <dd>最低点击出价</dd>
+          </dl>
+          <dl>
+            <dt>1/4-1/8</dt>
+            <dd>成本下降</dd>
+          </dl>
+        </footer>
+      </section>
+
+      <section class="example-card">
+        <img src="/img/u44.png"/>
+        <div class="example-card__content">
+          <h3>脑力大PK</h3>
+          <p>金牌优先公司</p>
+        </div>
+        <footer>
+          <dl>
+            <dt>900w+</dt>
+            <dd>展现量</dd>
+          </dl>
+          <dl>
+            <dt>36w</dt>
+            <dd>访问量</dd>
+          </dl>
+        </footer>
+      </section>-->
+    </article>
+
+   <!-- <div id="page-tool">
+      <section class="contact">
+        <i class="iconfont icon-dianhua"></i>
+        <div class="pop">
+          <h4>联系我们</h4>
+          <p>电话：18500679093</p>
+          <p>邮箱：abc@123.com</p>
+        </div>
+      </section>
+      <section class="wechat">
+        <i class="iconfont icon-weixin"></i>
+        <div class="pop">
+          <img src="/img/code.png"/>
+        </div>
+      </section>
+      <section class="up" onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;">
+        <i class="iconfont icon-up"></i>
+        <div class="pop">
+          返回顶部
+        </div>
+      </section>
+    </div>
+    <footer id="footer">
+      <p>公司地址：北京市大兴区亦庄经济开发区地盛中路5号联邦国际云鼎科技有限公司  联系电话：18500679093</p>
+      <p>Copyright © 2002-2013 www.xxx.cn 云鼎科技有限公司 版权所有</p>
+      <p>（京） ICP证：00000000号</p>
+    </footer>
+  </div>
+</body>
+</html>-->
+
+<script>
+$(function () {
+  $("html,body").animate({scrollTop: $("#app2").offset().top}, 800);
+})
+  var vm3 = new Vue({
+    el: "#app2",
+    data:{
+      casedatalist:[],
+      casesstart:1
+    },
+    methods: {
+      jiazaigengduo:function () {
+        var _this = this
+        $.post("/desk/getallcases",{
+          "currentpage":this.casesstart+1,"pagesize":5
+        },function (obj){
+          console.log(obj)
+          if(obj.ok){
+            _this.casedatalist = _this.casedatalist.concat(obj.data.records)
+            _this.casesstart+=1
+          }else{
+            $("#more").html("已经到底啦！");
+          }
+        })
+      },
+      seecase:function(id){
+        $("#pagebody").load("/desk/getpagecasesdetail",function (){
+          $.post("/desk/findOneNewsBodyById",{"newsid":id,"type":"cases"},function (obj) {
+            if(obj.ok){
+              vm2.casesdata = obj.data
+              vm2.src = "/desk/getbodypage?type=cases&id="+obj.data.caseid
+            }
+          })
+          $("#wrapper").attr("style","width:100%;");
+        $("#typexw").html("成功案例")
+
+      })
+        $.post("/desk/addPV",{"id":id,"type":"cases"})
+      }
+    },
+    mounted:function () {
+      var _this = this
+      $.post("/desk/getallcases",{
+          "currentpage":1,"pagesize":5
+      },function (obj){
+        if(obj.ok){
+          console.log(obj)
+          _this.casedatalist = obj.data.records
+      }
+    })
+      $("#wrapper").attr("style","width:80%;");
+    }
+  })
+</script>

@@ -1,0 +1,451 @@
+
+<script src="/js/vue-2.4.0.js"></script>
+<div class="box" id="box">
+  <div class="box-header " style="padding: 1px;margin-top: 12px;">
+     <label style=" font-weight: 100;margin-left: 10px;float: left;"  class="form-inline">新闻标题:<input type="text" class="form-control  input-sm" id="Ntitle" placeholder="支持模糊查询" style="margin-left: 10px;"></label>
+
+      <div class="input-group date" style="float: left;z-index: 999; margin-left: 50px;width: 14%"><div class="input-group-addon"><i class="fa fa-calendar"></i></div> <input placeholder="开始时间" title="这里是新闻创建时间哦,不是发布时间" type="text" id="kaishishijian"  class="form-control input-sm pull-right"></div>
+     <!-- <span style="float: left;">到</span>-->
+      <div class="input-group date" style="float: left;z-index: 999; margin-left: 50px;width: 14%"><div class="input-group-addon"><i class="fa fa-calendar"></i></div> <input placeholder="结束时间" title="这里是新闻创建时间哦,不是发布时间" type="text" id="jieshushijian"  class="form-control input-sm pull-right"></div>
+      <div style="display:inline-block;width: 200px; margin-left: 50px;float: left;">
+          <select class="select01" id="classify">
+              <option value="00">新闻类型</option>
+              <option value="01">产品运营</option>
+              <option value="02">品牌营销</option>
+              <option value="03">产品推广</option>
+          </select>
+      </div>
+      <input type="button" value="查询" class="btn btn-primary btn-sm" @click.prevent="findnews"  style="float: left;margin-left: 40px;">
+<!--      <input type="button" value="重置" class="btn btn-warning btn-sm" @click.prevent="findnews"  style="float: left;margin-left: 10px;">-->
+      <div style="display: inline-grid;padding: 0px 25px 0px 50px;">
+          <input type="button" value="导出已选" class="btn-warning btn-xs btn" @click.prevent="exportExcel" style="float: right;">
+          <input type="button" value="导出全部" class="btn-info btn-xs btn" @click.prevent="exportExcel" style="float: right;">
+      </div>
+      <div style="display: inline-grid;padding: 0px 25px 0px 0px;">
+      <input type="button" value="批量删除" class="btn-danger btn btn-xs delete" @click.prevent="deletes" style="float: right;">
+      <input type="button" value="新增新闻" class="btn-success btn-xs btn" @click.prevent="addnews" style="float: right;">
+
+      </div>
+
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+      <h3 id="tabletlt" style="display: none;text-align: center">没有任何数据哦~</h3>
+     <div id="tablebody">
+    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+      <div class="col-sm-12">
+      <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+      <thead>
+      <tr role="row">
+        <th   style="width:25px;" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending"></th>
+        <th  aria-controls="example2" style="text-align: center;" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">新闻主体</th>
+          <th  aria-controls="example2" style="text-align: center;width: 100px;" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">状态</th>
+          <th  aria-controls="example2" style="display: none;text-align: center;width: 100px;" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">状态</th>
+
+        <th  aria-controls="example2" style="text-align: center;width: 100px;" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+     <tr role="row" class="even" v-for="(item,i) in datalist" :key="item.newsid">
+        <td class="sorting_1" style="text-align: center;display: table-cell;vertical-align: middle;"><input type="checkbox" :id="datalist[i].newsid"/></td>
+       <!-- <td style="text-align: center;display: table-cell;vertical-align: middle;">{{item.newstitle}}</td>-->
+         <td>
+             <!--<div class="biankuang" id="wza" >
+                 <img src="/img/upload-3.png" id="inimg" title="双击删除图片" style="width: 220px;cursor: pointer;height: 144px;">
+                 <a class="preview">{{item.newstitle}}</a>
+                 <div class="jianjie">
+                     {{item.synopsis}}
+                 </div>
+                 <div style="color: #727272;">
+                     <span>{{item.starttime}}</span>
+                     <span class="zujian">|</span>
+                     <i class="glyphicon glyphicon-tag zujian" style="font-size: 10px;" ></i><span style="font-size: 10px;">点击量</span>
+                     <i class="glyphicon glyphicon-thumbs-up zujian" style="font-size: 10px;"></i><span style="font-size: 10px;">点赞量</span>
+                 </div>
+             </div>-->
+             <div class="biankuang" id="twa">
+                 <div style="float: left;margin-right: 10px;">
+                     <img :src="datalist[i].imgsrc" v-if="item.newstype==1" id="inimg"  style="width: 220px;cursor: pointer;height: 144px;">
+                 </div>
+                 <div style="margin-left: 5px" @click="xuanz(item.newsid)">
+                     <a class="preview" :title="datalist[i].newstitle">&nbsp;{{item.newstitle | msgFormat}}</a>
+                     <div  class="jianjie" :title="datalist[i].synopsis">
+                         {{item.synopsis}}
+                     </div>
+                     <div style="color: #727272;margin-top: 58px;">
+                         <span>{{item.starttime}}</span>
+                         <span class="zujian">|</span>
+                         <i class="glyphicon glyphicon-tag zujian" style="font-size: 10px;"></i><span>999</span>
+                         <i class="glyphicon glyphicon-thumbs-up zujian" style="font-size: 10px;"></i><span>999</span>
+                     </div>
+                 </div>
+             </div>
+         </td>
+         <td v-if="datalist[i].zhuangtai=='已发布'" style="text-align: center;display: table-cell;vertical-align: middle;"><span class="label label-success" style="cursor: pointer;">{{item.zhuangtai}}</span></td>
+         <td v-if="datalist[i].zhuangtai=='未发布'" style="text-align: center;display: table-cell;vertical-align: middle;"><span class="label label-danger" style="cursor: pointer;">{{item.zhuangtai}}</span></td>
+
+
+
+        <td style="text-align: center;display: table-cell;vertical-align: middle;"><input class="btn btn-xs btn-primary" type="button" @click.prevent="update(item.newsid)" value="修改"><br><input type="button"  class="btn  btn-xs btn-danger" @click.prevent="deletenews(item.newsid)" value="删除"><br><input v-if="datalist[i].zhuangtai=='未发布'&&datalist[i].iszancun==0" class="btn btn-xs btn-success" type="button" @click.prevent="quxiaofabu(item.newsid,'已发布')"  value="发布"><input v-if="datalist[i].zhuangtai=='已发布'&&datalist[i].iszancun==0" class="btn btn-xs btn-warning" type="button" @click.prevent="quxiaofabu(item.newsid,'未发布')"  value="下架"></td>
+      </tr>
+      </tbody>
+
+    </table>
+      </div>
+    </div>
+      <div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">一共{{total}}条新闻数据,当前页第{{currentpage}}页</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+      <ul id="pageLimit" class="pagination" style="cursor: pointer;">
+      </ul>
+    </div></div></div></div>
+  </div></div>
+  <!-- /.box-body -->
+</div>
+<script>
+$(function () {
+
+
+    $(".select01").M_select({
+        "ico":"2",
+        "radius":"4px",
+        "Title":"新闻类型"
+    });
+    $('#kaishishijian').datepicker({
+        autoclose: true,
+        language: 'zh-CN',//设置语言
+        format: "yyyy-mm-dd"
+    })
+
+    $('#jieshushijian').datepicker({
+        autoclose: true,
+        language: 'zh-CN',//设置语言
+        format: "yyyy-mm-dd"
+    })
+
+})
+
+
+  $('#example2').DataTable({
+    'paging'      : false,
+    'lengthChange': false,
+    'searching'   : false,
+    'ordering'    : false,
+    'info'        : false,
+    'autoWidth'   : false
+  })
+  Vue.filter('msgFormat',function (msg) {
+      if(msg.length>40){
+          return msg.slice(0,40) + '...'
+      }
+      return msg
+  })
+    var vm = new Vue({
+        el:'#box',
+        data :{
+            datalist:[],
+            pagesize:5,
+            currentpage:1,
+            total:0,
+            pages:0,
+
+        },
+        methods: {
+            findnews(){
+                var newstitle = $("#Ntitle").val();
+                var starttime = $("#kaishishijian").val();
+                var endtime = $("#jieshushijian").val();
+                var classify = $("input[name='sel_v']").val();
+                console.log(classify)
+                this.inittable(1,newstitle,starttime,endtime,classify)
+
+            }
+            ,
+            quxiaofabu(newsid,type){
+                $.post("/news/updatezhuangtai",{
+                    "newsid":newsid,
+                    "zhuangtai":type
+                },obj=>{
+                    if(obj.ok){
+                        alert(obj.msg)
+                        this.inittable(this.currentpage)
+                    }else{
+                        alert(obj.msg)
+                }
+
+                })
+            },
+            xuanz(newsid){
+                $("#"+newsid).trigger('click');
+            }
+            ,
+            addnews(){
+                $(".content").load("/news/addnews")
+            },
+            update(newsid){
+                var data = "";
+                $.post("/news/findNewsByNewsID",{"newsid":newsid},function (obj) {
+
+                    if(obj.ok){
+                        data = obj.data
+                        $(".content").load("/news/updatenews",function () {
+                            tinymce.init({
+                                selector: '.mytextarea',
+                                language:'zh_CN',
+                                toolbar: 'fullscreen|bold|italic|underline|strikethrough|alignleft|aligncenter|alignright|alignjustify|formatselect|fontselect|fontsizeselect|link image',
+                                plugins: 'fullscreen code lists advlist preview link image charmap print insertdatetime bdmap',
+                                // toolbar: 'bold|newdocument|undo redo | styleselect | bold italic | link image',
+                                //编辑器高度
+                                width:892,
+                                height:500,
+                                images_upload_url: '/news/inputimg',
+                            }).then( function (obj) {
+                                tinymce.activeEditor.setContent(data.newsbody);
+                            })
+                            $("#newstitle").val(data.newstitle);
+                            $("#datepicker").val(data.starttime);
+                            $("#datepicker1").val(data.endtime);
+                            $("#newsid").val(data.newsid);
+
+                            if(data.tuijian=='true'){
+                                $(".icheckbox_minimal-red").addClass("checked")
+                                $(".icheckbox_minimal-red").attr("aria-checked",true);
+                            }
+                            if(data.newstype==1){
+                                $("#tuwen").find("div").first().addClass("checked")
+                                $("#tuwen").find("div").first().attr("aria-checked",true);
+                                type = "tw"
+                                $("#twa").show();
+                                $("#wza").hide();
+                            }else if(data.newstype==2){
+                                $("#wenzi").find("div").first().addClass("checked")
+                                type = "wz"
+                                $("#wza").show();
+                                $("#twa").hide();
+                            }
+                            vm11.newstitle = data.newstitle
+                            vm11.synopsis = data.synopsis
+                            $("#synopsis").val(data.synopsis);
+                            $("#tujian").children("div").attr("aria-checked")
+                            $("#inimg").attr("src",data.imgsrc)
+                            $('body,html').animate({scrollTop:0},1);
+                            $("#newsid").val(data.newsid);
+                            console.log(data.classify)
+
+                            switch(data.classify) {
+                                case "01":
+                                    $(".select01").M_select({
+                                        "ico":"2",
+                                        "radius":"4px",
+                                        "Title":"产品运营",
+                                        "inputName":"updeteclassify",
+                                        "defaultvalue":data.classify
+                                    });
+                                    break;
+                                case "02":
+                                    $(".select01").M_select({
+                                        "ico":"2",
+                                        "radius":"4px",
+                                        "Title":"品牌营销",
+                                        "inputName":"updeteclassify",
+                                        "defaultvalue":data.classify
+                                    });
+                                    break;
+                                case "03":
+                                    $(".select01").M_select({
+                                        "ico":"2",
+                                        "radius":"4px",
+                                        "Title":"产品推广",
+                                        "inputName":"updeteclassify",
+                                        "defaultvalue":data.classify
+                                    });
+                                    break;
+                                default:
+
+                            }
+
+
+                         /*   $(".sel-title").attr("value",data.classify)*/
+
+
+                        })
+                    }else{
+                        alert(obj.msg)
+                    }
+                })
+
+            },
+            deletenews(newsid){
+                if(confirm("此操作将不可撤回,确定要删除吗？")){
+                   $.post("/news/deletenewsbyid",{"newsid":newsid},obj=>{
+                       if(obj.ok){
+                           alert("删除成功")
+                        //$(".content").load("/data")
+                        this.inittable(1)
+                        }else{
+                           alert(obj.msg)
+                       }
+                   })
+                }else{
+
+                }
+            },
+            deletes(){
+                var deletelist = []
+                $("input:checkbox:checked").each(function(){
+                    //操作
+                    if(this.id!=null&&this.id!=""){
+                        deletelist.push(this.id)
+                    }
+                });
+                if(confirm("此操作将不可撤回,确定要删除吗？")){
+                    $.post("/news/deleteList",{
+                        "datalist":deletelist
+                    },obj=>{
+                        if(obj.ok){
+                        alert("删除成功")
+                        //$(".content").load("/data")
+                        this.inittable(1)
+                    }else{
+                        alert(obj.msg)
+                    }
+                })
+                }
+            },
+            exportExcel(){
+                var exportlist = []
+                $("input:checkbox:checked").each(function(){
+                    //操作
+                    if(this.id!=null&&this.id!=""){
+                        exportlist.push(this.id)
+                    }
+                });
+                // $.post("/news/ExcelDownload",{ids : exportlist},function (){
+                //
+                // })
+
+            var url = "/news/ExcelDownload";
+            var params = {ids : exportlist};
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:params ,
+                success: function(response, status, request) {
+                    var disp = request.getResponseHeader('Content-Disposition');
+                    if (disp && disp.search('attachment') != -1) {
+                        var form = $('<form method="POST" action="' + url + '">');
+                        $.each(params, function(k, v) {
+                            form.append($('<input type="hidden" name="' + k +
+                                '1" value="' + v + '">'));
+                        });
+                        $('body').append(form);
+                        form.submit();
+                    }
+                }
+            }); }
+
+            ,
+            inittable(currentpage,newstitle,startime,endtiem,classify){
+
+                $.post("/news/getpage", {
+                    "currentpage": currentpage,
+                    "pagesize": 5,
+                    "newstitle":newstitle,
+                    "startime":startime,
+                    "endtiem":endtiem,
+                    "classify":classify
+                },obj=>{
+                    console.log(obj)
+                    if(obj.ok){
+                        if(obj.data.records.length==0){
+                          $("#tabletlt").show();
+                          $("#tablebody").hide();
+                        }else{
+                            $("#tablebody").show();
+                            $("#tabletlt").hide();
+                        }
+                    $('#pageLimit').bootstrapPaginator({//将id为pageLimit的ul元素设置为分页插件
+                        currentPage: obj.data.current,//设置当前页码
+                        size: "small",//设置控件的显示大小，
+                        bootstrapMajorVersion: 3,//当前版本
+                        alignment: "right",//设置控件的对齐方式
+                        totalPages: obj.data.pages,//设置总页数.
+                        itemTexts: function (type, page, current) {//控制每个操作按钮的显示文字。是个函数，有3个参数: type, page, current。
+                            //通过这个参数我们就可以将操作按钮上的英文改为中文，如first-->首页，last-->尾页。
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "末页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        onPageClicked: (event, originalEvent, type, page) => {//为操作按钮绑定click事件。
+                        //回调函数的参数：event, originalEvent, type,page。
+                        this.inittable(page)
+
+                    }
+                })
+                    this.datalist=obj.data.records
+                    this.pages = obj.data.pages
+                    this.total = obj.data.total
+                    this.currentpage = obj.data.current
+
+                }else{
+                    alert(obj.msg)
+                }
+
+
+            });
+            }
+
+        },
+        mounted:function () {
+            $.post("/news/getpage", {"currentpage": 1, "pagesize": this.pagesize}, obj => {
+                console.log(obj)
+                if(obj.ok){
+                $('#pageLimit').bootstrapPaginator({//将id为pageLimit的ul元素设置为分页插件
+                    currentPage: obj.data.current,//设置当前页码
+                    size: "small",//设置控件的显示大小，
+                    bootstrapMajorVersion: 3,//当前版本
+                    alignment: "right",//设置控件的对齐方式
+                    totalPages: obj.data.pages,//设置总页数.
+                    itemTexts: function (type, page, current) {//控制每个操作按钮的显示文字。是个函数，有3个参数: type, page, current。
+                        //通过这个参数我们就可以将操作按钮上的英文改为中文，如first-->首页，last-->尾页。
+                        switch (type) {
+                            case "first":
+                                return "首页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+                            case "last":
+                                return "末页";
+                            case "page":
+                                return page;
+                        }
+                    },
+                    onPageClicked: (event, originalEvent, type, page) => {//为操作按钮绑定click事件。
+                    //回调函数的参数：event, originalEvent, type,page。
+                    this.inittable(page)
+                }
+            })
+                this.datalist=obj.data.records
+                this.pages = obj.data.pages
+                this.total = obj.data.total
+                this.currentpage = obj.data.current
+            }else{
+                alert(obj.msg)
+            }
+
+
+        })
+
+        }
+
+    })
+
+</script>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer" />
+    <title>Title</title>
+    <script src="/js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="/css/bodydata.css">
+        <style id="main-inline-css" type="text/css">
+        </style>
+<style>
+    .box {
+        width:100%;
+        height:100%;
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-color:white;
+
+    }
+    .out-box {
+        width:150px;
+        height:150px;
+        border-top:4px solid #e0787f;
+        border-right:4px solid #e0787f;
+        border-bottom:4px solid #f0f0f0;
+        border-left:4px solid #f0f0f0;
+        border-radius:100%;
+        position:absolute;
+        left:50%;
+        top:50%;
+        margin-left:-75px;
+        margin-top:-75px;
+        animation:2.5s ease-in-out 0s normal none infinite rotateTwo;
+        -webkit-animation:2.5s ease-in-out 0s normal none infinite rotateTwo;
+    }
+    .inner-box {
+        width:130px;
+        height:130px;
+        border-bottom:2px solid #99749d;
+        border-top:2px solid #f0f0f0;
+        border-right:2px solid #f0f0f0;
+        border-left:2px solid #99749d;
+        border-radius:100%;
+        position:absolute;
+        left:50%;
+        top:50%;
+        margin-left:-65px;
+        margin-top:-65px;
+        animation:2.5s linear 0s normal none infinite rotate;
+        -webkit-animation:2.5s linear 0s normal none infinite rotate;
+    }
+    .text-box {
+        width:120px;
+        height:120px;
+        position:absolute;
+        left:50%;
+        top:50%;
+        margin-left:-60px;
+        margin-top:-60px;
+        color:#cccccc;
+        font-size:24px;
+        line-height:120px;
+        text-align:center;
+        animation:4s linear 0s normal none infinite flash;
+        -webkit-animation:4s linear 0s normal none infinite flash;
+    }
+    @-webkit-keyframes rotate {
+        from {
+            -webkit-transform:rotate(0deg)
+        }
+        to {
+            -webkit-transform:rotate(360deg)
+        }
+    }@keyframes rotate {
+         from {
+             transform:rotate(0deg)
+         }
+         to {
+             transform:rotate(360deg)
+         }
+     }@-webkit-keyframes rotateTwo {
+          from {
+              -webkit-transform:rotate(0deg)
+          }
+          to {
+              -webkit-transform:rotate(-360deg)
+          }
+      }@keyframes rotateTwo {
+           from {
+               transform:rotate(0deg)
+           }
+           to {
+               transform:rotate(-360deg)
+           }
+       }@-webkit-keyframes flash {
+            from,50%,to {
+                opacity:1;
+            }
+            25%,75% {
+                opacity:0;
+            }
+        }@keyframes flash {
+             from,50%,to {
+                 opacity:1;
+             }
+             25%,75% {
+                 opacity:0;
+             }
+         }
+</style>
+
+</head>
+<script>
+
+    function load(){
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+        var type = GetQueryString("type")
+        var id = GetQueryString("id")
+        $.ajaxSettings.async = false;
+        $.post("/desk/findOneNewsBodyById",{"newsid":id,"type":type},function (obj) {
+            if(obj.ok){
+                if(type=="news"){
+
+                    $("#app").html(obj.data.newsbody)
+                    $("#main-inline-css").html(obj.data.style)
+                    setTimeout(function(){
+                        console.log($("body").height())
+                    },1000);
+
+                }else{
+                    $("#app").html(obj.data.casebody)
+                    $("#main-inline-css").html(obj.data.style)
+                    setTimeout(function(){
+                        console.log($("body").height())
+                    },1000);
+                }
+            }
+        })
+        $.ajaxSettings.async = true;
+
+    }
+
+</script>
+<body id="qpp" onload="load()">
+<div class="box">
+    <div class="out-box"></div>
+    <div class="inner-box"></div>
+    <div class="text-box">loading</div>
+</div>
+<div id="app" title="" class="content_post" onload="load()">
+
+</div>
+<br>
+<br>
+<br>
+<br>
+</body>
+<script>
+    setTimeout(function(){
+        $(".box").hide()
+    },1000);
+</script>
+</html>

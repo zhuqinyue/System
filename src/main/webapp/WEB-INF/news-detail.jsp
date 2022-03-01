@@ -32,6 +32,21 @@
 		}
 
 	</style>
+	<script>
+
+		function changeFrameHeight(){
+			setTimeout(function(){
+				var ifm= document.getElementById("iframepage");
+				var iframeDoc = getIframeDocument(ifm);
+				//  console.log($('#iframepage').contents()[0].getElementById("app").getAttribute("title"))
+				ifm.height=iframeDoc.body.scrollHeight;
+				//  $(".box").hide();
+			},1000);
+
+		}
+
+
+	</script>
 </head>
 <body>
 
@@ -47,7 +62,7 @@
 		<!--            <a href="/#/case"  @click="loading('example')" v-show="false" id="example" style="font-family: 'Arial Normal', 'Arial';" class="daoh">成功案例</a>-->
 		<a  href="/desk/getpagenews.html" id="newss" style="font-family: 'Arial Normal', 'Arial';" class="active daoh">
 			新闻中心</a>
-		<span>客服热线：18900679093</span>
+		<span>客服热线：18500679093</span>
 	</nav>
 </header>
 <!--  <div id="banner">-->
@@ -124,24 +139,15 @@
 	</div>
 	<footer id="footer">
 		<p>公司地址：北京市大兴区亦庄经济开发区地盛中路5号联邦国际云鼎科技有限公司  联系电话：18500679093</p>
-		<p>Copyright © 2002-2013 www.xxx.cn 云鼎科技有限公司 版权所有</p>
-		<p>（京） ICP证：00000000号</p>
+		<p>Copyright © 2019-2026 www.bjydkj.cn 北京云鼎空间网络科技有限公司 版权所有</p>
+		<a href="https://beian.miit.gov.cn"><p>京ICP备19012932号-1</p></a>
 	</footer>
 </div>
 </body>
 </html>
 
 <script>
-	function changeFrameHeight(){
-		setTimeout(function(){
-			var ifm= document.getElementById("iframepage");
-			var iframeDoc = getIframeDocument(ifm);
-			//  console.log($('#iframepage').contents()[0].getElementById("app").getAttribute("title"))
-			ifm.height=iframeDoc.body.scrollHeight;
-			//  $(".box").hide();
-		},1000);
 
-	}
 	function getText(){
 		var iframe = document.getElementById('iframepage');
 		var iframeDoc = getIframeDocument(iframe);
@@ -213,7 +219,7 @@
 					$("#"+page).addClass("active")
 				}
 
-				$("#pagebody").load("/desk/getpage"+page)
+				window.location.href="/desk/getpage"+page+".html";
 			},
 
 		},

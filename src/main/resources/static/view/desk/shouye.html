@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="referrer" content="no-referrer"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>云鼎空间</title>
+
+    <link href="/css/reset.css" rel="stylesheet"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link href="/css/iconfont.css" rel="stylesheet"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/vue-2.4.0.js"></script>
+
+    <style>
+        #pagebody{
+            width: 80%;
+            margin: auto;
+            transition: width .3s ease-in;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        .jued{
+            position:fixed;
+            top: 1%;
+            left: 72%;
+        }
+        .newsbody{
+            padding: 24px;
+            background-color: #fff;
+            border-radius: 4px;
+            margin-bottom: 10px;
+
+        }
+
+        @media screen and (max-width: 1200px) {
+            #pagebody{
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/css/page.css">
+    <script src="/js/jquery.z-pager.js"></script>
+    <link rel="stylesheet" href="/view/desk/main.css">
+</head>
+<body>
+<iframe style="display: none;">
+</iframe>
+<div style="position: relative;">
+<div class="zhao" style="display: none;">
+    <div style="width: 35px;
+    position: fixed;
+    top: 35%;
+    left: 50%;">
+            <img src="/img/loading.gif"/>
+    </div>
+</div>
+<div id="app" style="position: relative; z-index:98;">
+    <header id="header" class="clearfix">
+        <div id="logo">
+            <a href="/desk/getpageindex.html">
+                <img src="/img/logo.png"/>
+                <img src="/img/logo_text.png"/>
+            </a>
+        </div>
+        <nav>
+            <a href="/desk/getpageindex.html" @click="loading('index')" id="index" style="font-family: 'Arial Normal',
+            'Arial';" class="active daoh">首页</a>
+<!--            <a href="/#/case"  @click="loading('example')" v-show="false" id="example" style="font-family: 'Arial Normal', 'Arial';" class="daoh">成功案例</a>-->
+            <a  href="/desk/getpagenews.html" @click="loading('news')" id="newss" style="font-family: 'Arial Normal',
+            'Arial';" class="daoh">新闻中心</a>
+            <span>客服热线：18500679093</span>
+        </nav>
+    </header>
+
+    <div id="banner">
+        <img src="/img/banner1.jpg"/>
+    </div>
+
+    <div id="wrapper">
+
+    <div id="pagebody">
+        <article id="main">
+           <!-- <section class="section-index first clearfix">
+                <h2>竞价推广问题</h2>
+                <h1>您是否遇到如下困惑</h1>
+                <img src="/img/u25.png" width="50%"/>
+                <div>
+                    <p>推广成本每年增加的可怕</p>
+                    <p>钱花的增多不见效果增加</p>
+                    <p>出价高反而没有效果，钱去哪了？</p>
+                    <p>点击成本越来越高，看着真心痛。</p>
+                    <p>质量度得分太差了，出钱排不上名</p>
+                    <p>访客进来就走了，浪费钱！浪费钱！</p>
+                </div>
+            </section>-->
+
+            <section class="section-index second clearfix">
+                <h1>云鼎营销为效果负责，为客户收益负责</h1>
+                <dl>
+                    <dt><div style="width: 230px;height: 230px;background-color: white;"><img :src="img1" style="width: 230px;height: 230px;"/></div></dt>
+                    <h1 style="color: #60608f;    font-weight: 600;margin-bottom: 1px;">咨询量跃增</h1>
+                    <p style="padding: 13px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">建立一对一有效沟通机制 </p>
+                    <p style="padding: 0px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">策略确定 立即落地执行</p>
+                </dl>
+                <dl>
+                    <dt><div style="width: 230px;height: 230px;background-color: white;"><img :src="img2" style="width: 230px;height: 230px;"/></div></dt>
+                    <h1 style="color: #60608f;    font-weight: 600;margin-bottom:1px;">锁定人群</h1>
+                    <p style="padding: 13px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">人群追踪 定位目标人群 差异化管理</p>
+                    <p style="padding: 0px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">深入优化 精准追踪 提升转化效果</p>
+
+                </dl>
+                <dl>
+                    <dt><div style="width: 230px;height: 230px;background-color: white;"><img :src="img3" style="width: 230px;height: 230px;"/></div></dt>
+                    <h1 style="color: #60608f;    font-weight: 600;margin-bottom:1px;">效益倍增</h1>
+                    <p style="padding: 13px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">“精细化”“多样化”“差异化”</p>
+                    <p style="padding: 0px 10px 10px 10px;color:#000000 ;font-family: 'Arial Normal', 'Arial';font-size: 18px;">投放达到品效合一 提升转化</p>
+
+                </dl>
+            </section>
+            <section class="section-index three">
+                <div class="fx-home">
+                    <div class="section-1">
+                        <h1 class="title">和我们一起规范业务流程、促进团队协作</h1>
+                        <div class="tabs content-wrapper">
+                            <div data-tab="form" data-index="0" class="tab">
+                                1 营销策划
+                            </div>
+                            <div data-tab="flow" data-index="1" class="tab">
+                                2 互动方案
+                            </div>
+                            <div data-tab="coop" data-index="2" class="tab">
+                                3 创意制作
+                            </div>
+                            <div data-tab="analyze" data-index="3" class="tab">
+                                4 效果反馈优化
+                            </div>
+                        </div>
+                        <div class="tab-wrappers content-wrapper">
+                            <div class="tab-content form active" data-index="0">
+                                <div class="tab-desc">
+                                    拖动字段来创建表单，获取来自员工和客户的信息
+                                </div>
+                                <img src="/view/desk/form-new-cn.png" tppabs="https://blog-assets.jiandaoyun.com/index/home/form-new-cn.png" />
+                            </div>
+                            <div class="tab-content flow " data-index="1">
+                                <div class="tab-desc">
+                                    零代码构建自己的线上业务流程
+                                </div>
+                                <img src="/view/desk/flow-new-cn.png" tppabs="https://blog-assets.jiandaoyun.com/index/home/flow-new-cn.png" />
+                            </div>
+                            <div class="tab-content coop " data-index="2">
+                                <div class="tab-desc">
+                                    通过钉钉/企业微信/邮箱，与员工及客户即时共享信息
+                                </div>
+                                <img src="/view/desk/coop-new-cn.png" tppabs="https://blog-assets.jiandaoyun.com/index/home/coop-new-cn.png" />
+                            </div>
+                            <div class="tab-content analyze " data-index="3">
+                                <div class="tab-desc">
+                                    简单拖拽即可完成数据分析，洞察变化，辅助决策
+                                </div>
+                                <img src="/view/desk/report-new-cn.png" tppabs="https://blog-assets.jiandaoyun.com/index/home/report-new-cn.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+           <!-- <section class="section-index four">
+                <h1>成功案例</h1>
+                <hr style="margin-bottom: 10px;">
+                <ul>
+                    <li v-for="item in list" :key="item.caseid" >&lt;!&ndash;@click="seecase(item.caseid)"&ndash;&gt;
+                        <img style="width: 220px;height: 130px;cursor: pointer;" :src="item.caseimgsrc"/>
+                    </li>
+                </ul>
+                <hr style="margin-top: 10px;">
+            </section>-->
+
+            <section class="section-index five">
+                <h1>行业咨询</h1>
+                <hr style="margin-top: 10px;">
+                <div class="application-page border-top">
+                    <div class="app-list">
+                        <div class="app-item" v-for="item in listforu">
+
+                            <div class="item-center" @click.prevent="gotonewsdetail(item.newsid)">
+                                <div class="img-box" style="background-color: #63636e;width: 80px;color: white;">
+
+                                    <div class="year" >{{item.starttime.slice(0,4)}}</div>
+                                    <div class="month">{{item.starttime.slice(5,11)}}</div>
+
+                                </div>
+                                <div style="padding: 2px 0 0 0;font-family: 'Arial Normal', 'Arial';"><div>{{item.newstitle|substrone}}</div>
+                                    <div :title="item.synopsis" class="text-box" style="line-height: 20px;font-family: 'Arial Normal', 'Arial';width: 250px;">
+                                        {{item.synopsis|substr}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top: 10px;">
+            </section>
+
+
+            <section class="section-index six">
+
+                <div class="your-ask">
+                    <h3>我猜您现在可能存在如下疑问：</h3>
+                    <div style="margin-top: 30px;">
+                        <ul style="font-family: 'Arial Normal', 'Arial';">
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">你们能做什么？</a></li>
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">需要多少钱？</a></li>
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">需要多久？</a></li>
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">我需要做什么?</a></li>
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">需要提供什么资料？</a></li>
+                            <li style="font-size: 17px;"><a style="color: rgb(63, 144, 191);cursor:pointer;">售后服务怎么样？</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                <div class="info-box">
+                    <form action="" enctype="multipart/form-data" method="post">
+
+                        <input type="text" style="width: 15%;" name="name" id="name" value="" placeholder="姓名" class="username">
+                        <input type="text" style="width: 15%;" name="tel" id="tel" value="" placeholder="手机号码" class="telephone">
+                        <input type="text" style="width: 35%;" name="content" id="content" value="" placeholder="您的问题或者需求~" class="content">
+
+                        <a class="post">
+                            <button type="button" onclick="sendMail()"  class="post sendMail" >提交您的需求</button>
+                        </a>
+                        <a target="_blank"  class="post" href="http://wpa.qq.com/msgrd?v=3&uin=401187784&site=qq&menu=yes">
+                            <button  type="button" onclick="test()" class="post"  >在线联系我们</button>
+                        </a>
+
+                    </form>
+                    <p style="font-family: 'Arial Normal', 'Arial';font-size: 15px;margin-top: 22px;" class="war">同样的问题每个人侧重点不同，很难有标准的答案；请认真填写表单信息或直接在线联系，我们会给您最合适的答案！</p>
+                </div>
+
+            </section>
+        </article>
+
+    </div>
+    <div id="page-tool">
+        <section class="contact">
+            <i class="iconfont icon-dianhua"></i>
+            <div class="pop" style="border-radius: 10px 10px 10px 10px;background-color: white;">
+                <h4 style="border-radius: 10px 10px 0 0;">联系我们</h4>
+                <p style="text-align: center;">电话：18500679093</p>
+                <p style="text-align: center;">邮箱：401187784@qq.com</p>
+            </div>
+        </section>
+        <section class="wechat">
+            <i class="iconfont icon-weixin"></i>
+            <div class="pop">
+                <img src="/img/code.png"/>
+            </div>
+        </section>
+        <section class="up" onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;">
+            <i class="iconfont icon-up"></i>
+            <div class="pop">
+                返回顶部
+            </div>
+        </section>
+    </div>
+    </div>
+    <footer id="footer">
+        <p>公司地址：北京市大兴区亦庄经济开发区地盛中路5号联邦国际云鼎科技有限公司  联系电话：18500679093</p>
+        <p>Copyright © 2019-2026 www.bjydkj.cn 北京云鼎空间网络科技有限公司 版权所有</p>
+        <a href="https://beian.miit.gov.cn"><p>京ICP备19012932号-1</p></a>
+    </footer>
+
+</div>
+</div>
+</body>
+</html>
+<script>
+    Vue.filter('substr',function (msg) {
+        if(msg.length>30){
+            return msg.slice(0,30) + '...'
+        }
+        return msg
+    })
+
+    Vue.filter('substrone',function (msg) {
+        if(msg.length>10){
+            return msg.slice(0,15) + '...'
+        }
+        return msg
+    })
+    function sendMail() {
+        var phone = $("#tel").val();
+        var name = $("#name").val();
+        var content = $("#content").val();
+        if(name==""){
+            alert("请输入姓名！");
+            return false;
+        }
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+            alert("请输入有效合法的手机号码！");
+            return false;
+        }
+            $(".zhao").show().attr("style","z-index:99;")
+        $.post("/desk/sendMail",{ "name":name, "tel":phone, "content":content},function (obj) {
+
+                if(obj.ok){
+                    setTimeout(function(){
+                        alert("后台人员以知晓，我们将在2个工作日内联系您")
+                        $(".zhao").hide()
+                    }, 1000);
+                }else{
+                    setTimeout(function(){
+                        alert("失败")
+                        $(".zhao").hide()
+                    }, 1000);
+                }
+            }
+            )
+    }
+    function changeFrameHeight(){
+        setTimeout(function(){
+            var ifm= document.getElementById("iframepage");
+            var iframeDoc = getIframeDocument(ifm);
+           // console.log(getText());
+         //   console.log(iframeDoc.body.scrollHeight)
+            //  console.log($('#iframepage').contents()[0].getElementById("app").getAttribute("title"))
+            ifm.height=iframeDoc.body.scrollHeight;
+            //  $(".box").hide();
+        },1000);
+
+    }
+    function getIframeDocument(iframe) {
+        return iframe.contentDocument || iframe.contentWindow.document;
+    }
+    var vm = new Vue({
+        el : "#app",
+        data : {
+            list:[],
+            listforu:[],
+            img1:"",
+            img2:"",
+            img3:""
+        },
+        methods : {
+            gotonewsdetail:function(newsid){
+                    window.location.href="/desk/getpagenewsdetail.html?newsid="+newsid+"";
+                    $.post("/desk/addPV",{"id":newsid,"type":"news"})
+            }
+            ,
+            seecase:function(id){
+                    var _this = this
+                    $("#pagebody").load("/desk/getpagecasesdetail",function (){
+                        $.post("/desk/findOneNewsBodyById",{"newsid":id,"type":"cases"},function (obj) {
+                            if(obj.ok){
+                                vm2.casesdata = obj.data
+                                vm2.src="/desk/getbodypage?type=cases&id="+obj.data.caseid
+                            }
+                        })
+                        $("#wrapper").attr("style","width:100%;");
+                        $("#typexw").html("成功案例")
+                    })
+
+            },
+            loading:function(page){
+                $("#banner").show();
+                $("#banner2").show();
+                $(".daoh").removeClass("active")
+                if(page=="news"){
+                    $("#"+page+"s").addClass("active")
+                    $("#wrapper").addClass("huise")
+
+                }else {
+                    $("#"+page).addClass("active")
+                    $("#wrapper").removeClass("huise")
+                }
+
+              window.location.href="/desk/getpage"+page+".html";
+            }
+        },mounted:function () {
+            var _this = this
+            $.post("/desk/getcases",function (obj){
+
+                if(obj.ok){
+                    _this.list = obj.data
+            }
+        })
+
+            $.post("/desk/getnews",{
+                "type":"four"
+            },function (obj) {
+                console.log(obj)
+               _this.listforu =  obj.data
+            })
+
+            $.post("/desk/findimgs",function(obj){
+                _this.img1 = obj.data.img1
+                _this.img2 = obj.data.img2
+                _this.img3 = obj.data.img3
+            })
+        }
+    })
+
+
+</script>
+<!--轮播-->
+<script>
+
+
+    $(document).ready(function () {
+        // tab切换
+        var $section1 = $('.section-1'),
+            $tabs = $('.tabs', $section1),
+            $tabWrapper = $('.tab-wrappers', $section1),
+            $tabChildren = $tabs.children('.tab'),
+            tabsCount = $tabChildren.length,
+            index = 0,
+            switchInterval = 3000;
+        function shouldAnimate () {
+            var topHeight = $section1.offset().top,
+                scrollTop = $(document).scrollTop(),
+                viewHeight = $(window).height();
+            return scrollTop + viewHeight > topHeight + 200;
+        }
+        function switchTab () {
+            // 顶部tab
+            $('.active', $tabs).removeClass('active');
+            var currentIndex = index % tabsCount;
+            $tabChildren.eq(currentIndex).addClass('active');
+            // tab内容
+            if (index > 0) {
+                var $contentChildren = $tabWrapper.children('.tab-content'),
+                    beforeIndex = $('.active', $tabWrapper).data('index'),
+                    $current = $contentChildren.eq(currentIndex),
+                    $before = $contentChildren.eq(beforeIndex);
+                $before.removeClass('active')
+                $current.addClass('active');
+            }
+            index ++;
+        }
+        var tabInt;
+        var int = setInterval(function () {
+            if (shouldAnimate()) {
+                switchTab();
+                tabInt = setInterval(switchTab, switchInterval);
+                clearInterval(int);
+            }
+        }, 150);
+        // 点击某个tab切换
+        $tabs.on('click', function (e) {
+            var $target = $(e.target).closest('.tab');
+            if ($target.length && !$target.hasClass('active')) {
+                index = $target.data('index') + tabsCount;
+                clearInterval(tabInt);
+                switchTab();
+                tabInt = setInterval(switchTab, switchInterval);
+            }
+        });
+        //观看视频
+       // showIntroVideo(".fx-home");
+    });
+
+
+
+</script>

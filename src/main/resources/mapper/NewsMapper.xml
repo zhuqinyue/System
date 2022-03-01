@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.system.dao.NewsDao">
+    <select id="findonetest" resultType="com.company.system.entity.SysNews">
+        select  * from  sys_news where  newsid = #{newsid}
+    </select>
+
+    <select id="findFiveNews" resultType="com.company.system.entity.SysNews">
+        select  newsid,newstitle,synopsis,starttime,endtime,newstype,tuijian,liulanliang,imgsrc,dianjiliang,createdtime,zhuangtai,classify,iszancun,updatetime from  sys_news s where s.zhuangtai='已发布' ORDER BY s.updatetime desc  limit 5
+    </select>
+
+    <select id="findFourNesw" resultType="com.company.system.entity.SysNews">
+        select  newsid,newstitle,synopsis,starttime,endtime,newstype,tuijian,liulanliang,imgsrc,dianjiliang,createdtime,zhuangtai,classify,iszancun,updatetime from  sys_news s where s.zhuangtai='已发布' ORDER BY s.updatetime desc  limit 6
+    </select>
+
+    <select id="findFivetuijian" resultType="com.company.system.entity.SysNews">
+        select  newsid,newstitle,synopsis,starttime,endtime,newstype,tuijian,liulanliang,imgsrc,dianjiliang,createdtime,zhuangtai,classify,iszancun,updatetime from  sys_news s WHERE s.tuijian = 'true' and s.zhuangtai='已发布' ORDER BY  s.updatetime desc  limit 5
+    </select>
+
+    <select id="findAllNews" resultType="com.company.system.entity.SysNews">
+        select  newsid,newstitle,synopsis,starttime,endtime,newstype,tuijian,liulanliang,imgsrc,dianjiliang,createdtime,zhuangtai,classify,iszancun,updatetime from  sys_news  WHERE  zhuangtai='已发布' and #{nowtime} > starttime and endtime> #{nowtime} and classify = #{classify} ORDER BY  updatetime desc
+    </select>
+
+    <update id="updatePVbyID">
+        UPDATE sys_news s set s.liulanliang =#{i} WHERE s.newsid = #{id}
+    </update>
+
+    <update id="updateZhuangtaiByIds" >
+        UPDATE sys_news s set s.liulanliang =#{i} WHERE s.newsid in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

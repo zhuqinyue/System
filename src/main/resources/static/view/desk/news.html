@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="referrer" content="no-referrer" />
+  <title>云鼎空间</title>
+  <link href="/css/reset.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="/css/iconfont.css" rel="stylesheet"/>
+  <script src="/js/vue-2.4.0.js"></script>
+  <script src="/js/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="/view/desk/main.css">
+</head>
+<style>
+  #pagebody{
+    width: 80%;
+    margin: auto;
+    transition: width .3s ease-in;
+  }
+  [v-cloak]{
+    display: none;
+  }
+  .jued{
+    position:fixed;
+    top: 1%;
+    left: 72%;
+  }
+  .newsbody{
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+
+  }
+
+  @media screen and (max-width: 1200px) {
+    #pagebody{
+      width: 100%;
+    }
+  }
+</style>
+<body>
+
+    <header id="header" class="clearfix">
+      <div id="logo">
+        <a href="/desk/getpageindex">
+          <img src="/img/logo.png"/>
+          <img src="/img/logo_text.png"/>
+        </a>
+      </div>
+      <nav>
+        <a href="/desk/getpageindex.html" id="index" style="font-family: 'Arial Normal', 'Arial';" class="daoh">首页</a>
+        <!--            <a href="/#/case"  @click="loading('example')" v-show="false" id="example" style="font-family: 'Arial Normal', 'Arial';" class="daoh">成功案例</a>-->
+        <a  href="/desk/getpagenews.html" id="newss" style="font-family: 'Arial Normal', 'Arial';" class="active daoh">
+          新闻中心</a>
+        <span>客服热线：18500679093</span>
+      </nav>
+    </header>
+    <div id="banner">
+      <img src="/img/banner2.jpg"/>
+    </div>
+    <div id="wrapper" class="huise">
+    <div id="pagebody">
+
+    <article id="news" class="clearfix" >
+      <div class="news-bar" style="width: 23%;padding: 0px 0px 0px 7px;">
+        <section class="news-bar__section">
+          <h3 class="news-bar__header">最新文章</h3>
+          <ul>
+            <li v-for="item in zuixinglist" :key="item.newsid" @click.prevent="gotonewsdetail(item.newsid)">
+              <a  style="cursor: pointer;font-size: smaller;" :title="item.newstitle">{{item.newstitle|msgFormat}}</a>
+              <span class="news-bar__info">{{item.updatetime|substr}}</span>
+            </li>
+          <!--  <li>
+              <a href="">小米信息流如何投放，我总结了影响创意CRD的</a>
+              <span class="news-bar__info">前天</span>
+            </li>-->
+          </ul>
+        </section>
+        <section class="news-bar__section banner">
+          <img src="/img/u108.png"/>
+        </section>
+        <section class="news-bar__section">
+          <h3 class="news-bar__header">推荐文章</h3>
+          <ul>
+            <li v-for="item in tuijianlist" @click.prevent="gotonewsdetail(item.newsid)">
+              <a  style="cursor: pointer;font-size: smaller;" :title="item.newstitle">{{item.newstitle|msgFormat}}</a>
+              <span class="news-bar__info">{{item.updatetime|substr}}</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <div class="news-list" style="width: 76%;">
+        <nav id="news-nav">
+          <a @click="initNewsData('01')" style="cursor: pointer;" id="yy" class="chap active">产品运营</a>
+          <a @click="initNewsData('02')" style="cursor: pointer;" id="yx" class="chap">品牌营销</a>
+          <a @click="initNewsData('03')" style="cursor: pointer;" id="tg" class="chap">产品推广</a>
+        </nav>
+
+
+        <a class="news-card clearfix" href="" v-for="item in datalist" @click.prevent="gotonewsdetail(item.newsid)">
+            <div class="news-card__banner" v-if="item.newstype==1">
+              <span class="label">{{newstype}}</span>
+              <img style="width: 220px;height: 140px;" :src="item.imgsrc"/>
+            </div>
+            <div class="news-card__content">
+              <h1 style="font-size: 18px;color: #666;text-align: left;line-height: 30px;font-weight: 900;cursor: pointer;position: relative;font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;">{{item.newstitle}}</h1>
+              <p style="padding: 5px 20px 0 0px;">{{item.synopsis|MsgFormat}}</p>
+              <footer>
+                <span>{{item.updatetime|substr}}</span>
+                <span>浏览量:{{item.liulanliang}}</span>
+              </footer>
+            </div>
+          </a>
+      </div>
+      <div id="jiazan" @click="jiazaigengduo(classify)" style="display: none;text-align: center; cursor: pointer;width: 76%;padding: 13px 0 13px 0;text-align: center;cursor: pointer;background: white;"><a>加载更多</a></div>
+    </article>
+  </div>
+  </div>
+  <div id="page-tool">
+    <section class="contact">
+      <i class="iconfont icon-dianhua"></i>
+      <div class="pop" style="border-radius: 10px 10px 10px 10px;background-color: white;">
+        <h4 style="border-radius: 10px 10px 0 0;">联系我们</h4>
+        <p style="text-align: center;">电话：18500679093</p>
+        <p style="text-align: center;">邮箱：401187784@qq.com</p>
+      </div>
+    </section>
+    <section class="wechat">
+      <i class="iconfont icon-weixin"></i>
+      <div class="pop">
+        <img src="/img/code.png"/>
+      </div>
+    </section>
+    <section class="up" onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;">
+      <i class="iconfont icon-up"></i>
+      <div class="pop">
+        返回顶部
+      </div>
+    </section>
+  </div>
+  </div>
+
+    <footer id="footer">
+      <p>公司地址：北京市大兴区亦庄经济开发区地盛中路5号联邦国际云鼎科技有限公司  联系电话：18500679093</p>
+      <p>Copyright © 2019-2026 www.bjydkj.cn 北京云鼎空间网络科技有限公司 版权所有</p>
+      <a href="https://beian.miit.gov.cn"><p>京ICP备19012932号-1</p></a>
+    </footer>
+</body>
+</html>
+
+<script>
+  function ininttalbe(total,pages,current){
+   /* $("#pager").zPager({
+      totalData: total,
+      pageData:5,
+      pageCount:pages,
+      htmlBox: $('#wraper'),
+      btnShow: true,
+      ajaxSetData: false,
+      current:current
+    })*/
+    vm1.newnstart=current
+  }
+
+
+  /*$("#pager").zPager({
+    totalData: 34,
+    pageData:5,
+    htmlBox: $('#wraper'),
+    btnShow: true,
+    ajaxSetData: false
+  });*/
+
+  function currentPage(currentPage){
+    /*
+        触发页码数位置： Page/js/jquery.z-pager.js 64行
+    */
+  //  console.log("当前页码数：" + currentPage);
+  }
+
+  Vue.filter('msgFormat',function (msg) {
+    if(msg.length>25){
+      return msg.slice(0,25) + '...'
+    }
+    return msg
+  })
+
+
+  Vue.filter('MsgFormat',function (msg) {
+    if(msg.length>100){
+      return msg.slice(0,100) + '...'
+    }
+    return msg
+  })
+  $(function () {
+    function currentPage(currentPage){
+      /*
+          触发页码数位置： Page/js/jquery.z-pager.js 64行
+      */
+     // console.log("当前页码数：" + currentPage);
+    }
+//    $("html,body").animate({scrollTop: $(".news-bar").offset().top}, 800);
+  })
+  Vue.filter('substr', function (val) {
+    if(val!=null){
+      return val.substring(0,10);
+    }
+    return val
+  })
+
+
+  var vm1 = new Vue({
+    el: "#news",
+    data:{
+      zuixinglist:[],
+      tuijianlist:[],
+      datalist:[],
+      classify:"",
+      newstype:"",
+      newnstart:1
+    },
+    methods:{
+      gotonewsdetail:function(newsid){
+       window.location.href="/desk/getpagenewsdetail.html?newsid="+newsid+"";
+      },
+      jiazaigengduo:function(type){
+        //console.log(type)
+        var _this = this
+        $.post("/desk/getallnews",{/*1产品运营;2品牌营销;3产品推广*/
+                  "classify":type,"currentpage":this.newnstart+1,"pagesize":5
+                },function (obj){
+          if(obj.data.records.length==0){
+            $("#jiazan").html("已经到底啦!")
+            return
+          }
+          _this.datalist = _this.datalist.concat(obj.data.records)
+          ininttalbe(obj.data.total,obj.data.pages,obj.data.current)
+        })
+        }
+      ,
+      initNewsData:function(type){
+        var _this = this
+        this.newnstart=1
+        $("#jiazan").html("加载更多！")
+        $.post("/desk/getallnews",{/*1产品运营;2品牌营销;3产品推广*/
+          "classify":type,"currentpage":1,"pagesize":5
+        },function (obj){
+
+          if(obj.ok){
+          _this.datalist = obj.data.records
+          $(".chap").removeClass("active")
+          if(type==01){
+            _this.newstype = "产品运营";
+            _this.classify = type
+          $("#yy").addClass("active")
+          }else if(type==02){
+            _this.newstype = "品牌营销";
+            _this.classify = type
+            $("#yx").addClass("active")
+          }else{
+            _this.newstype = "产品推广";
+            _this.classify = type
+            $("#tg").addClass("active")
+          }
+          $("html,body").animate({scrollTop: $(".news-bar").offset().top}, 800);
+        }
+      })
+      }
+
+    },
+    mounted:function () {
+      $("#wrapper").attr("style","width:100%;");
+      var _this =this
+      $.post("/desk/getnews",{
+          "type":"news"
+      },function (obj){
+        if(obj.ok){
+        _this.zuixinglist = obj.data
+      }
+    })
+     $.post("/desk/getallnews",{/*1产品运营;2品牌营销;3产品推广*/
+       "classify":"01","currentpage":1,"pagesize":5
+     },function (obj) {
+    //   console.log(obj)
+       if(obj.ok){
+        _this.newstype = "产品运营";
+        _this.classify = "01"
+        _this.datalist = obj.data.records
+         ininttalbe(obj.data.total,obj.data.pages,obj.data.current)
+         $("#jiazan").show();
+       }
+     })
+      $.post("/desk/getnews",{
+        "type":"tuijian"
+      },function (obj){
+        if(obj.ok){
+        _this.tuijianlist = obj.data
+      }
+    })
+    }
+
+  })
+  function changeFrameHeight(){}
+</script>

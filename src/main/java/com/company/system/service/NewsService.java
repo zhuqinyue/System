@@ -42,7 +42,7 @@ public interface NewsService {
 
     List<SysNews> findAllNews(String var1);
 
-    void addPV(String var1);
+    Boolean addPV(String var1);
 
     indexcontent findimgs();
 

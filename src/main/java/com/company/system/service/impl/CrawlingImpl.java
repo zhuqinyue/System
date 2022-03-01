@@ -39,6 +39,7 @@ public class CrawlingImpl implements CrawLing {
     public CrawlingImpl() {
     }
 
+    @Override
     public void qingGua() {
         try {
             new HashMap();

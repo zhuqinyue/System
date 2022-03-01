@@ -1,0 +1,332 @@
+<script src="/js/vue-2.4.0.js"></script>
+<!-- Form Element sizes -->
+<div class="box box-default" id="addn" style="    padding-bottom: 50px;padding-top: 20px;">
+    <div class="box-header with-border" style="text-align: center">
+        <h2 class="box-title">修改新闻</h2>
+    </div>
+    <div class="box-body" style="    margin-left: 100px">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">新闻标题:<input type="text"  class="form-control" v-model="newstitle" id="newstitle" style="width: 892px;margin-left: 50px;" placeholder="请输入内容(50字以内)"></label>
+    </div>
+
+    <div class="box-body" style="    margin-left: 100px">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">信息类型:<!-- Single button -->
+            <div style="display:inline-block;width: 892px; margin-left: 50px;">
+                <select class="select01">
+                    <option value="01">产品运营</option>
+                    <option value="02">品牌营销</option>
+                    <option value="03">产品推广</option>
+                </select>
+            </div>
+        </label>
+    </div>
+
+
+    <div class="box-body" style="    margin-left: 100px">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">新闻简介:<textarea rows="3" id="synopsis" v-model="synopsis" class="form-control" style="width: 892px;margin-left: 50px;" placeholder="请输入内容(100字以内)"></textarea></label>
+    </div>
+
+    <div class="box-body" style="margin-left: 100px">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300; ">发布期间:
+            <div class="input-group date" style="z-index: 999;margin-left: 50px;">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="datepicker">
+            </div>
+                <label style="margin-left: 60px;text-align: center;font-weight: 200;">到</label>
+            <div class="input-group date" style="z-index: 999;margin-left: 50px;">
+
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="datepicker1">
+            </div>
+        </label>
+
+
+    </div>
+
+    <div class="box-body" style="margin-left: 100px;">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">正文编辑:</label>
+        <div style="margin-left: 110px;">
+            <textarea class="mytextarea"></textarea>
+        </div>
+    </div>
+
+
+    <div class="box-body" style="margin-left: 100px;">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">是否推荐:
+            <!-- checkbox -->
+            <div class="form-group" style="width: 892px;margin-left: 50px;">
+                <label id="tujian">
+                    <input type="checkbox" class="minimal-red">
+                </label>
+
+            </div>
+        </label>
+    </div>
+
+    <div class="box-body" style="margin-left: 100px;">
+        <label class="form-inline" style="width: 90%;font-size: 15px;font-weight:300;">信息流版式:
+
+            <div class="form-group" id="radios" style="width: 892px;margin-left: 15px;">
+                <label style="margin-left: 20px;" id="tuwen">
+                    <input type="radio" name="r2" class="minimal-red" id="tw">
+                </label>
+                <label style="text-align: center;font-weight: 200;">
+                    单图加文字
+                </label>
+                <label style="margin-left: 20px;" id="wenzi">
+                    <input type="radio" name="r2" class="minimal-red" id="wz">
+                </label>
+                <label style="text-align: center;font-weight: 200;">
+                    文字
+                </label>
+            </div>
+        </label>
+    </div>
+    <div class="biankuang" id="wza" style="padding-left: 220px;margin-bottom: 40px;display: none;">
+        <a class="preview">{{newstitle}}</a>
+        <div class="jianjie">
+            {{synopsis}}
+        </div>
+        <div style="color: #727272;">
+            <span>发布时间</span>
+            <span class="zujian">|</span>
+            <i class="glyphicon glyphicon-tag zujian" style="font-size: 10px;"></i><span>点击量</span>
+            <i class="glyphicon glyphicon-thumbs-up zujian" style="font-size: 10px;"></i><span>点赞量</span>
+        </div>
+    </div>
+
+
+    <div class="biankuang" id="twa" style="padding-left: 220px;margin-bottom: 40px;display: none;">
+        <div style="float: left;margin-right: 10px;">
+            <input awidth="220" aheight="144" type="file" id="imgInput" name="file" style="display: block;" class="tup" unselectable="on" accept="image/*" >
+            <img src="/img/upload-3.png" id="inimg" title="双击删除图片" style="width: 220px;cursor: pointer;height: 144px;">
+        </div>
+        <div style="margin-left: 5px">
+        <a class="preview">&nbsp;{{newstitle}}</a>
+        <div class="jianjie">
+            {{synopsis}}
+        </div>
+        <div style="color: #727272;margin-top: 58px;">
+            <span>发布时间</span>
+            <span class="zujian">|</span>
+            <i class="glyphicon glyphicon-tag zujian" style="font-size: 10px;"></i><span>999</span>
+            <i class="glyphicon glyphicon-thumbs-up zujian" style="font-size: 10px;"></i><span>999</span>
+        </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-md-2 col-md-offset-5">
+            <input type="button" value="提交" id="addnew" class="btn btn-sm btn-primary" style="margin-left: 10px;">
+            <input type="button" value="暂存" class="btn btn-success btn-sm" @click.prevent="zancun" style="margin-left: 10px;">
+            <input type="button" value="取消" id="colsed" @click="quxiao" class="btn btn-sm btn-danger" style="margin-left: 10px;">
+            <!--<input type="button" value="暂存" class="btn btn-primary" style="margin-left: 10px;">-->
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+<input id="newsid" type="hidden" value="">
+<script>
+
+
+    var vm11 = new Vue({
+        el:'#addn',
+        data:{
+            newstitle:"",
+            synopsis:""
+        },
+        methods:{
+            quxiao(){
+                if(confirm("确认取消去别的页面吗?")){
+                    $(".content").load("/data")
+                    $('body,html').animate({scrollTop:0},1000);
+                }
+            },
+            zancun(){
+                var newsbody = tinyMCE.activeEditor.getContent()
+                var newstitle =$("#newstitle").val();
+                var starttime = $("#datepicker").val();
+                var endtime = $("#datepicker1").val();
+                var newstype = type
+                var synopsis = $("#synopsis").val();
+                var classify = $("input[name='updeteclassify']").val();
+                var param = {
+                    "newsid":$("#newsid").val(),
+                    "newsbody":newsbody,
+                    "newstitle":newstitle,
+                    "starttime":starttime,
+                    "endtime":endtime,
+                    "newstype":newstype,
+                    "synopsis":synopsis,
+                    "tuijian":$("#tujian").children("div").attr("aria-checked"),
+                    "imgsrc":$("#inimg").attr("src"),
+                    "classify":classify,
+                    "type":"update"
+                }
+                $.post("news/zancun",param,function (obj) {
+                    if(obj.ok){
+                        alert("保存成功")
+                    }else{
+                        alert(obj.msg)
+                    }
+                })
+            }
+        }
+    })
+
+
+
+
+    //Date range as a button
+
+
+    //Date picker
+    $('#datepicker').datepicker({
+        autoclose: true,
+        language: 'zh-CN',//设置语言
+        format: "yyyy-mm-dd",
+
+    })
+
+    $('#datepicker1').datepicker({
+        autoclose: true,
+        language: 'zh-CN',//设置语言
+        format: "yyyy-mm-dd",
+
+    })
+
+
+    /*var E = window.wangEditor
+
+    var editor = new E('#editor')
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.colors = [
+        '#000000',
+        '#eeece0',
+        '#1c487f',
+        '#4d80bf',
+        '#c24f4a',
+        '#8baa4a',
+        '#7b5ba1',
+        '#46acc8',
+        '#f9963b',
+        '#ffffff',
+        '#979090',
+        '#666'
+    ]
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()*/
+
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+        checkboxClass: 'icheckbox_minimal-red',
+        radioClass   : 'iradio_minimal-red'
+    })
+
+        //this.$options.methods.inittable(1);
+            $(function () {
+
+                $(".select01").M_select({
+                    "ico":"2",
+                    "radius":"4px",
+                    "Title":"请选择"
+                });
+
+                $(".iCheck-helper").click(function () {
+                    // var attr = $(".iCheck-helper").slibings().attr("id");
+                    //console.log("id"+attr)
+                    var checkedRedio=$('#radios input:radio:checked').attr("id");
+                if(checkedRedio=="tw"){
+                    console.log("图文");
+                    type  = "tw"
+                    $("#wza").hide();
+                    $("#twa").show();
+                }else if(checkedRedio=="wz"){
+                    console.log("文字");
+                    type = "wz"
+                    $("#wza").show();
+                    $("#twa").hide();
+                }
+            })
+
+                $("#addnew").click(function (){
+                    if(type=="未选择"){
+                    alert("请选择信息流版式")
+                    return
+                }
+                var newsid = $("#newsid").val();
+                var newsbody = tinyMCE.activeEditor.getContent()
+                var newstitle =$("#newstitle").val();
+                var starttime = $("#datepicker").val();
+                var endtime = $("#datepicker1").val();
+                var newstype = type
+                var synopsis = $("#synopsis").val();
+                var classify = $("input[name='updeteclassify']").val();
+
+                var param = {
+                    "newsid":newsid,
+                    "newsbody":newsbody,
+                    "newstitle":newstitle,
+                    "starttime":starttime,
+                    "endtime":endtime,
+                    "newstype":newstype,
+                    "synopsis":synopsis,
+                    "tuijian":$("#tujian").children("div").attr("aria-checked"),
+                    "imgsrc":$("#inimg").attr("src"),
+                    "classify":classify
+                }
+
+                var url='/news/upnews';
+                console.log(param)
+                $.post(url,param,function (obj) {
+                    alert(obj.msg)
+                if(obj.ok){
+                    $(".content").load("/data")
+                    $('body,html').animate({scrollTop:0},1000);
+                }
+            })
+            })
+
+
+                $("#inimg").click(function () {
+                    $("#imgInput").trigger('click');
+                })
+                $("#inimg").dblclick(function () {
+                    $("#inimg").attr("src","/img/upload-3.png");
+
+                })
+                $("#imgInput").change(function () {
+                    var formdata = new FormData();
+                    formdata.append('file', $('#imgInput')[0].files[0])
+                    $.ajax({
+                        url : "/news/inputimg",
+                        data: formdata,
+                        type : "POST",
+                        // 告诉jQuery不要去处理发送的数据，用于对data参数进行序列化处理 这里必须false
+                        processData : false,
+                        // 告诉jQuery不要去设置Content-Type请求头
+                        contentType : false,
+                        dataType:"json",
+                        success : function(json) {
+                            console.log(json)
+                            if(json.ok){
+                                $("#inimg").attr("src",json.data)
+                            }
+                        },
+                        error : function(json) {
+                        }
+                    });
+
+                })
+            })
+
+
+
+
+
+
+
+</script>
